@@ -1,0 +1,6 @@
+.terraform*
+terraform.tfstate*
+tests
+algo
+*.tfvars
+private_ip.txt
