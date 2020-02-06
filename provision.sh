@@ -1,4 +1,5 @@
 #!/bin/sh
+git clone https://github.com/trailofbits/algo.git
 cd algo
 SERVER_IP=`cat ../private_ip.txt`
 
@@ -8,6 +9,7 @@ python3 -m virtualenv --python="$(command -v python3)" .env &&
   python3 -m pip install -U pip virtualenv &&
   python3 -m pip install -r requirements.txt
 
+#deploy algo
 ansible-playbook main.yml -e "provider=local \
                               server=${SERVER_IP} \
                               endpoint={{server}} \
