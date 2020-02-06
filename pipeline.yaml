@@ -1,0 +1,5 @@
+prepare:
+  - type: terraform
+    args:
+      - -backend-config=conn_str=postgres://terraform:{$ .P.pg_password $}@pgsql-main.service.{$ .P.Datacenter $}.consul/terraform_backend
+      - -backend-config=schema_name={$ .P.tf_workspace $}
