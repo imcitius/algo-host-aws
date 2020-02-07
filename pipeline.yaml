@@ -1,7 +1,5 @@
 prepare:
   - type: terraform
+    force_on_destroy: true
     args:
       - -backend-config=conn_str=postgres://terraform:{$ .P.pg_password $}@master.pgsql.service.{$ .P.datacenter $}.consul/terraform_backend?sslmode=disable
-destroy:
-  - type: terraform
-    force: true
