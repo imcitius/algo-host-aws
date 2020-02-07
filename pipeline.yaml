@@ -1,5 +1,6 @@
+{$ $name := printf "%s-%s" .I.ProjectName .I.Name $}
 prepare:
   - type: terraform
     args:
-      - -backend-config=conn_str=postgres://terraform:{$ .P.pg_password $}@pgsql-main.service.{$ .P.Datacenter $}.consul/terraform_backend
-      - -backend-config=schema_name={$ .P.tf_workspace $}
+      - -backend-config=conn_str=postgres://terraform:{$ .P.pg_password $}@pgsql-main.service.{$ .P.datacenter $}.consul/terraform_backend
+      - -backend-config=schema_name={$ $name $}
