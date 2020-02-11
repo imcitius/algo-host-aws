@@ -1,5 +1,16 @@
-prepare:
-  - type: terraform
-    force_on_destroy: true
+start:
+  - cmd: terraform
     args:
-      - -backend-config=conn_str=postgres://terraform:{$ .P.pg_password $}@master.pgsql.service.{$ .P.datacenter $}.consul/terraform_backend?sslmode=disable
+      - init
+   - cmd: terraform
+     args:
+      - apply
+      - -auto-approve
+destroy:
+ - cmd: terraform
+    args:
+      - init
+ - cmd: terraform
+   args:
+     - destroy
+     - -auto-approve     

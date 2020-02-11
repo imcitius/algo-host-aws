@@ -1,12 +1,13 @@
 provider "aws" {
-  region     = "{$ .P.aws_region $}"
-  access_key = "{$ .P.aws_access_key $}"
-  secret_key = "{$ .P.aws_secret_key $}"
+  region     = "{$ .aws_region $}"
+  access_key = "{$ .aws_access_key $}"
+  secret_key = "{$ .aws_secret_key $}"
 }
-{$ $name := printf "%s_%s" .I.ProjectName .I.Name $}
+{$ $name := printf "%s" .uniq_name $}
 terraform {
-  backend "pg" {
-    schema_name="{$ $name $}"
-    skip_schema_creation=false
+  backend "consul" {
+    address="consul.service.infra1.consul:8500"
+    scheme  = "http"
+    path    = "tf/states/faceless-algo/{$ $name $}"
   }
 }
