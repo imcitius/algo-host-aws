@@ -2,15 +2,15 @@ start:
   - cmd: terraform
     args:
       - init
-   - cmd: terraform
-     args:
+  - cmd: terraform
+    args:
       - apply
       - -auto-approve
 destroy:
- - cmd: terraform
+  - cmd: terraform
     args:
       - init
- - cmd: terraform
-   args:
+  - cmd: terraform
+    args:
      - destroy
      - -auto-approve     
