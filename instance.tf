@@ -16,7 +16,7 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "algo" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
+  instance_type = "t2.nano"
   key_name = "citius"
   associate_public_ip_address = true
   private_ip = "10.0.0.12"
