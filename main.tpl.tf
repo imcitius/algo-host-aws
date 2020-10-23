@@ -3,11 +3,13 @@ provider "aws" {
   access_key = "{$ .aws_access_key $}"
   secret_key = "{$ .aws_secret_key $}"
 }
-{$ $name := printf "%s" .uniq_name $}
+
 terraform {
-  backend "consul" {
-    address="consul.service.infra1.consul:8500"
-    scheme  = "http"
-    path    = "tf/states/faceless-algo/{$ $name $}"
+  backend "http" {
+    address = "http://terraform-state-store.service.{$ .datacenter $}.consul/v1/state/{$ .uniq_name $}"
+    lock_address = "http://terraform-state-store.service.{$ .datacenter $}.consul/v1/state/{$ .uniq_name $}"
+    unlock_address = "http://terraform-state-store.service.{$ .datacenter $}.consul/v1/state/{$ .uniq_name $}"
+    username = "algo-personal"
+    password = "any"
   }
 }

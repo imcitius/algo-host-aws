@@ -2,15 +2,19 @@ start:
   - cmd: terraform
     args:
       - init
+      - -no-color
   - cmd: terraform
     args:
       - apply
       - -auto-approve
+      - -no-color
 destroy:
   - cmd: terraform
     args:
       - init
+      - -no-color
   - cmd: terraform
     args:
      - destroy
-     - -auto-approve     
+     - -auto-approve
+     - -no-color

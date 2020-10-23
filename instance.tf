@@ -3,7 +3,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {
@@ -17,11 +17,11 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "algo" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.nano"
-  key_name = "citius"
+  key_name      = aws_key_pair.ssh.key_name
   associate_public_ip_address = true
-  private_ip = "10.0.0.12"
+  private_ip    = "10.0.0.12"
 
-  subnet_id = aws_subnet.algo.id
+  subnet_id     = aws_subnet.algo.id
 
   vpc_security_group_ids = [
     aws_security_group.algo.id
@@ -32,11 +32,15 @@ resource "aws_instance" "algo" {
   }
 
   provisioner "local-exec" {
-    command = "echo ${aws_instance.algo.public_ip} > private_ip.txt"
+      command = "echo '${tls_private_key.ssh.private_key_pem}' > private_key.txt && chmod 600 private_key.txt"
+  }
+
+  provisioner "local-exec" {
+      command = "echo '${aws_instance.algo.public_ip}' > private_ip.txt && chmod 600 private_ip.txt"
   }
 
   provisioner "local-exec" {
     command = "./provision.sh"
+    interpreter = ["/bin/bash"]
   }
-
 }
